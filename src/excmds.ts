@@ -505,7 +505,10 @@ export function focusinput(nth: number|string) {
                                          index, [DOM.isSubstantial])
     }
 
-    if (inputToFocus) inputToFocus.focus()
+    if (inputToFocus) {
+        inputToFocus.focus()
+        if (nth === "-l") input_mode()
+    }
 }
 
 // Store the last focused element
@@ -1248,6 +1251,21 @@ import * as gobbleMode from './parsers/gobblemode'
 //#background
 export async function gobble(nChars: number, endCmd: string) {
     gobbleMode.init(nChars, endCmd)
+}
+
+// }}}
+//
+
+// {{{ INPUT mode
+
+//#content_helper
+import * as inputMode from './parsers/inputmode'
+
+/** Initialize input mode.
+*/
+//#content
+export async function input_mode() {
+    inputMode.init()
 }
 
 // }}}
