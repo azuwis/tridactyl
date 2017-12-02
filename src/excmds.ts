@@ -443,6 +443,7 @@ let LAST_USED_INPUT: HTMLElement = null
  *
  * @param nth   focus the nth input on the page, or "special" inputs:
  *                  "-l": last focussed input
+ *                  "-n": input after last focussed one
  *                  "-p": first password field
  *                  "-b": biggest input field
  */
@@ -465,6 +466,16 @@ export function focusinput(nth: number|string) {
         // will need to serialise the last used input to a string that
         // we can look up in future (tabindex, selector?), perhaps along with
         // a way to remember the page it was on?
+    }
+    else if (nth === "-n") {
+        // attempt to find next input
+        let inputs = DOM.getElemsBySelector(INPUTTAGS_selectors,
+            [DOM.isSubstantial]) as HTMLElement[]
+        if (inputs.length) {
+            let index = inputs.indexOf(LAST_USED_INPUT) + 1
+            if (index >= inputs.length) index = 0
+            inputToFocus = <HTMLElement>inputs[index]
+        }
     }
     else if (nth === "-p") {
         // attempt to find a password input
